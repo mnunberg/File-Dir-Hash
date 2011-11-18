@@ -12,6 +12,8 @@ use Class::XSAccessor {
     )]
 };
 
+our $VERSION = '0.01_0';
+
 sub new {
     my ($cls,%opts) = @_;
     my $hash_func = delete $opts{hash_func};
@@ -40,7 +42,8 @@ sub genpath {
         my $n_elem = shift @templ;
         push @components, join("", splice(@chars, 0, $n_elem));
     }
-    my $fname = pop @components;
+    my $fname = $hashstr;
+    
     my $tree = join("/", $self->basedir, @components);
     if ($mkdir) {
         -d $tree or mkpath($tree);
