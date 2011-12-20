@@ -1,8 +1,11 @@
 package File::Dir::Hash;
 use strict;
 use warnings;
+
+use File::Spec;
 use File::Path qw(mkpath);
 use Digest::MD5 qw(md5_hex);
+
 use Class::XSAccessor {
     constructor => '_real_new',
     accessors => [qw(
@@ -12,7 +15,7 @@ use Class::XSAccessor {
     )]
 };
 
-our $VERSION = '0.01_0';
+our $VERSION = '0.02';
 
 sub new {
     my ($cls,%opts) = @_;
@@ -44,11 +47,11 @@ sub genpath {
     }
     my $fname = $hashstr;
     
-    my $tree = join("/", $self->basedir, @components);
+    my $tree = File::Spec->catdir($self->basedir, @components);
     if ($mkdir) {
         -d $tree or mkpath($tree);
     }
-    return join("/", $tree, $fname);
+    return File::Spec->catdir($tree, $fname);    
 }
 
 1;
@@ -89,7 +92,7 @@ being the size of the value of that element.
 
 Thus if the C<hash_func> returns 'ABCEFGHIJKLMOPQRST' and the C<pattern> is C<[1,2,5]>
 then the resultant path would be C<A/BC/EFGHI/JKLMNOPQRST>. The default pattern
-is L<[1,2,2,4]>.
+is C<[1,2,2,4]>
 
 =item basedir
 

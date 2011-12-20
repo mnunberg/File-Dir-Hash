@@ -13,6 +13,10 @@ WriteMakefile(
     PL_FILES            => {},
     PREREQ_PM => {
         'Test::More' => 0,
+        'Digest::MD5' => 0,
+        'File::Spec' => 0,
+        'File::Path' => 0,
+        'Class::XSAccessor' => 0
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'File-Dir-Hash-*' },
